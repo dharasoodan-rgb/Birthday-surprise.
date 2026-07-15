@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Happy Birthday ❤️</title>
+<style>
+body{margin:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#12002b,#2c0057);color:#fff;overflow-x:hidden;min-height:100vh}
+.page{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;padding:24px;text-align:center}
+.page.active{display:flex}
+button{padding:12px 22px;border:none;border-radius:30px;background:#ff4fa3;color:#fff;font-size:18px;cursor:pointer;transition:all 0.3s ease}
+button:hover{background:#ff2d8f;transform:scale(1.05)}
+#cake{font-size:110px;animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.flame{font-size:40px;animation:flicker .5s infinite alternate;display:inline-block}
+@keyframes flicker{from{opacity:.5;transform:scale(0.95)}to{opacity:1;transform:scale(1.05)}}
+.cardwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;width:100%;max-width:700px}
+.card{background:#ffffff22;border-radius:18px;padding:18px;cursor:pointer;transition:all 0.3s ease;backdrop-filter:blur(10px)}
+.card:hover{background:#ffffff44;transform:translateY(-5px)}
+.modal{display:none;position:fixed;inset:0;background:#000a;align-items:center;justify-content:center;z-index:1000}
+.box{background:#1a1a2e;color:#fff;padding:30px;border-radius:16px;max-width:90%;max-height:85vh;overflow:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+img{max-width:100%;border-radius:12px;margin:15px 0}
+video,audio{max-width:100%;margin:15px 0;border-radius:8px}
+.audio-player{background:#fff2;padding:15px;border-radius:10px;margin:15px 0}
+h1{font-size:2.5em;margin:0 0 20px 0}
+p{font-size:1.1em;line-height:1.8;margin:15px 0}
+.mic-status{padding:10px 20px;border-radius:20px;background:#ff4fa3;margin:10px 0;font-weight:bold;min-height:30px}
+.mic-listening{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.back-button{position:absolute;top:20px;left:20px;padding:8px 16px;font-size:14px;background:#ff4fa355}
+.back-button:hover{background:#ff4fa3}
+section h1{margin-top:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:20px 0}
+.gallery img{cursor:pointer;transition:transform 0.3s}
+.gallery img:hover{transform:scale(1.05)}
+</style>
+</head>
+<body>
+
+<section id="p1" class="page active">
+<h1>🎁 A Special Delivery</h1>
+<p>Hey Love ❤️<br>Someone has been waiting all year to give you this surprise.</p>
+<button onclick="show('p2')">Begin</button>
+</section>
+
+<section id="p2" class="page">
+<div id="cake">🎂</div>
+<div id="flame" class="flame">🔥🔥🔥</div>
+<p>Make a wish and blow out the candles!</p>
+<p id="micStatus" class="mic-status" style="display:none;">Listening for your breath...</p>
+<p style="font-size:0.9em">Or use the button below:</p>
+<button onclick="startMicrophoneDetection()">🎤 Use Microphone</button>
+<button onclick="blow()">Or Click Here</button>
+</section>
+
+<section id="p3" class="page">
+<h1>💌 Happy Birthday My Love</h1>
+<p id="letter">
+Dear Sweetheart,<br><br>
+Today is your special day, and I wanted to take a moment to tell you how much you mean to me. 
+Every day with you is a blessing, and I'm so grateful for your smile, your laughter, and your loving heart.<br><br>
+You make my world brighter just by being in it. Thank you for being the amazing person you are.<br><br>
+Here's to another year of wonderful memories together. I love you so much! ❤️<br><br>
+All my love,<br>
+Your Sweetheart
+</p>
+<button onclick="show('p4')">Open Your Gifts ❤️</button>
+</section>
+
+<section id="p4" class="page">
+<h1>🎁 Your Surprise Box</h1>
+<div class="cardwrap">
+<div class="card" onclick="openModal('📸 Photos','<div class=\"gallery\"><img src=\"https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=300\" alt=\"Memory 1\"><img src=\"https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300\" alt=\"Memory 2\"><img src=\"https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300\" alt=\"Memory 3\"><img src=\"https://images.unsplash.com/photo-1519046904884-53103b34b206?w=300\" alt=\"Memory 4\"></div><p style=\"font-size:0.9em\">Click any photo to view larger</p>')">📸<br>Photos</div>
+<div class="card" onclick="openModal('🎥 Videos','<p>Happy Birthday Video Message:</p><video controls width=\"100%\"><source src=\"https://commondatastorage.googleapis.com/gtv-videos-library/sample/ElephantsDream.mp4\" type=\"video/mp4\">Your browser does not support the video tag.</video><p style=\"font-size:0.9em\">A special message just for you!</p>')">🎥<br>Videos</div>
+<div class="card" onclick="openModal('🎙️ Voice Notes','<p>Listen to my voice message:</p><div class=\"audio-player\"><audio controls style=\"width:100%\"><source src=\"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3\" type=\"audio/mpeg\">Your browser does not support the audio element.</audio></div><p style=\"font-size:0.9em\">A message from my heart to yours.</p>')">🎙️<br>Voice Notes</div>
+<div class="card" onclick="openModal('💌 Open When...','<p><strong>Open When You Need Me:</strong></p><p style=\"text-align:left\">I wanted you to know that you are loved more than words can express. You are strong, beautiful, and absolutely amazing. When the world feels heavy, remember that I believe in you completely. You've got this! ❤️</p><p><strong>Open When You\'re Smiling:</strong></p><p style=\"text-align:left\">Thank you for bringing joy into my life. Your smile lights up my darkest days. Keep being the wonderful person you are!</p>')">💌<br>Letters</div>
+</div>
+</section>
+
+<div id="modal" class="modal" onclick="this.style.display='none'">
+<div class="box" onclick="event.stopPropagation()">
+<h2 id="mt"></h2>
+<div id="mc"></div>
+<button onclick="document.getElementById('modal').style.display='none'">Close</button>
+</div>
+</div>
+
+<script>
+let mediaStream = null;
+let audioContext = null;
+let analyser = null;
+let microphoneActive = false;
+
+function show(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ if(microphoneActive && id !== 'p2') {
+   stopMicrophoneDetection();
+ }
+}
+
+function blow(){
+ document.getElementById('flame').textContent='';
+ document.getElementById('flame').style.animation='none';
+ setTimeout(() => {
+   alert("🎉 Happy Birthday! Make a wish come true!");
+   show('p3');
+ }, 300);
+}
+
+function openModal(t,c){
+ document.getElementById('mt').textContent=t;
+ document.getElementById('mc').innerHTML=c;
+ document.getElementById('modal').style.display='flex';
+}
+
+async function startMicrophoneDetection() {
+ const statusEl = document.getElementById('micStatus');
+ statusEl.style.display='block';
+ statusEl.textContent='🎤 Requesting microphone access...';
+ 
+ try {
+   mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+   audioContext = new (window.AudioContext || window.webkitAudioContext)();
+   analyser = audioContext.createAnalyser();
+   analyser.fftSize = 2048;
+   
+   const source = audioContext.createMediaStreamSource(mediaStream);
+   source.connect(analyser);
+   
+   microphoneActive = true;
+   statusEl.textContent='🎤 Listening... blow out the candles!';
+   statusEl.classList.add('mic-listening');
+   
+   detectBlow();
+ } catch (err) {
+   statusEl.textContent='❌ Microphone access denied. Use the button instead.';
+   statusEl.style.color='#ffcccc';
+   console.error('Microphone error:', err);
+   setTimeout(() => {
+     statusEl.style.display='none';
+   }, 3000);
+ }
+}
+
+function stopMicrophoneDetection() {
+ if(mediaStream) {
+   mediaStream.getTracks().forEach(track => track.stop());
+ }
+ if(audioContext) {
+   audioContext.close();
+ }
+ microphoneActive = false;
+ const statusEl = document.getElementById('micStatus');
+ statusEl.classList.remove('mic-listening');
+ statusEl.style.display='none';
+}
+
+function detectBlow() {
+ if(!microphoneActive) return;
+ 
+ const dataArray = new Uint8Array(analyser.frequencyBinCount);
+ analyser.getByteFrequencyData(dataArray);
+ 
+ // Calculate average frequency energy
+ const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+ 
+ // If blow detected (sudden spike in frequency energy)
+ if(average > 150) {
+   stopMicrophoneDetection();
+   blow();
+   return;
+ }
+ 
+ requestAnimationFrame(detectBlow);
+}
+</script>
+</body>
+</html>
